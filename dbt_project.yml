@@ -1,4 +1,4 @@
-name: 'fivetran_utils'
+name: 'fivetran_utils__no_quotes'
 version: '0.1.0'
 config-version: 2
 
