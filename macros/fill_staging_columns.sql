@@ -22,7 +22,7 @@
             {% if target.type in ('bigquery', 'spark') %}
             `{{ column.name }}`
             {% elif target.type == 'snowflake' %}
-            "{{ column.name | upper }}"
+            {{ column.name | upper }} -- this is where code differs from the offical repo for fivetran_utils
             {% else %}
             "{{ column.name }}"
             {% endif %}
