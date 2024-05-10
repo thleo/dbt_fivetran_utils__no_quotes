@@ -1,6 +1,6 @@
 {% macro percentile(percentile_field, partition_field, percent) -%}
 
-{{ adapter.dispatch('percentile', packages = fivetran_utils._get_utils_namespaces()) (percentile_field, partition_field, percent) }}
+{{ adapter.dispatch('percentile', packages = fivetran_utils__no_quotes._get_utils_namespaces()) (percentile_field, partition_field, percent) }}
 
 {%- endmacro %}
 

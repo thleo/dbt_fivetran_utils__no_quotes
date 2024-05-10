@@ -1,6 +1,6 @@
 {% macro source_relation() -%}
 
-{{ adapter.dispatch('source_relation', packages = fivetran_utils._get_utils_namespaces()) () }}
+{{ adapter.dispatch('source_relation', packages = fivetran_utils__no_quotes._get_utils_namespaces()) () }}
 
 {%- endmacro %}
 

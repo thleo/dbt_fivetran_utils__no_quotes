@@ -4,7 +4,7 @@
 {% set source_schema = ""~ source_schema ~"" %}
 {% set source_database = ""~ source_database ~"" %}
 
-{% set zsh_command = "source dbt_modules/fivetran_utils/columns_setup.sh '../dbt_"""~ package ~"""_source' stg_"""~ package ~""" """~ source_database ~""" """~ source_schema ~""" " %}
+{% set zsh_command = "source dbt_modules/fivetran_utils__no_quotes/columns_setup.sh '../dbt_"""~ package ~"""_source' stg_"""~ package ~""" """~ source_database ~""" """~ source_schema ~""" " %}
 
 {% for t in tables %}
     {% if t != tables[-1] %}

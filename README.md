@@ -12,7 +12,7 @@ This package includes macros that are used in Fivetran's dbt packages.
 ### _get_utils_namespaces ([source](https://github.com/fivetran/dbt_fivetran_utils/blob/master/macros/_get_utils_namespaces.sql))
 This macro allows for namespacing macros throughout a dbt project. The macro currently consists of two namespaces:
 - `dbt_utils`
-- `fivetran_utils`
+- `fivetran_utils__no_quotes`
 
 ----
 ### add_pass_through_columns ([source](https://github.com/fivetran/dbt_fivetran_utils/blob/master/macros/add_pass_through_columns.sql))
@@ -23,7 +23,7 @@ user defined custom fields.
 
 **Usage:**
 ```sql
-{{ fivetran_utils.add_pass_through_columns(base_columns=columns, pass_through_var=var('hubspot__deal_pass_through_columns')) }}
+{{ fivetran_utils__no_quotes.add_pass_through_columns(base_columns=columns, pass_through_var=var('hubspot__deal_pass_through_columns')) }}
 ```
 **Args:**
 * `base_columns` (required): The name of the variable where the base columns are contained. This is typically `columns`.
@@ -36,7 +36,7 @@ BigQuery, Snowflake, Redshift, and Postgres. By default a comma `,` is used as a
 
 **Usage:**
 ```sql
-{{ fivetran_utils.array_agg(field_to_agg="teams") }}
+{{ fivetran_utils__no_quotes.array_agg(field_to_agg="teams") }}
 ```
 **Args:**
 * `field_to_agg` (required): Field within the table you are wishing to aggregate.
@@ -48,14 +48,14 @@ than, or equal to, the specified numeric expression. The ceiling macro is compat
 
 **Usage:**
 ```sql
-{{ fivetran_utils.ceiling(num="target/total_days") }}
+{{ fivetran_utils__no_quotes.ceiling(num="target/total_days") }}
 ```
 **Args:**
 * `num` (required): The integer field you wish to apply the ceiling function.
 
 ----
 ### collect_freshness ([source](https://github.com/fivetran/dbt_fivetran_utils/blob/master/macros/collect_freshness.sql))
-This macro overrides dbt's default [`collect_freshness` macro](https://github.com/fishtown-analytics/dbt/blob/0.19.latest/core/dbt/include/global_project/macros/adapters/common.sql#L257-L273) that is called when running `dbt source snapshot-freshness`. It allows you to incorporate model enabling/disabling variables into freshness tests, so that, if a source table does not exist, dbt will not run (and error on) a freshness test on the table. **Any package that has a dependency on fivetran_utils will use this version of the macro. If no `meta.is_enabled` field is provided, the `collect_freshness` should run exactly like dbt's default version.**
+This macro overrides dbt's default [`collect_freshness` macro](https://github.com/fishtown-analytics/dbt/blob/0.19.latest/core/dbt/include/global_project/macros/adapters/common.sql#L257-L273) that is called when running `dbt source snapshot-freshness`. It allows you to incorporate model enabling/disabling variables into freshness tests, so that, if a source table does not exist, dbt will not run (and error on) a freshness test on the table. **Any package that has a dependency on fivetran_utils__no_quotes will use this version of the macro. If no `meta.is_enabled` field is provided, the `collect_freshness` should run exactly like dbt's default version.**
 
 **Usage:**
 ```yml
@@ -84,7 +84,7 @@ This macro creates a dummy coalesce value based on the data type of the field. S
 - Date      = cast("2099-12-31" as date)
 **Usage:**
 ```sql
-{{ fivetran_utils.dummy_coalesce_value(column="user_rank") }}
+{{ fivetran_utils__no_quotes.dummy_coalesce_value(column="user_rank") }}
 ```
 **Args:**
 * `column` (required): Field you are applying the dummy coalesce.
@@ -95,7 +95,7 @@ This macro checks a declared variable and returns an error message if the variab
 
 **Usage:**
 ```yml
-on-run-start: '{{ fivetran_utils.empty_variable_warning(variable="ticket_field_history_columns", downstream_model="zendesk_ticket_field_history") }}'
+on-run-start: '{{ fivetran_utils__no_quotes.empty_variable_warning(variable="ticket_field_history_columns", downstream_model="zendesk_ticket_field_history") }}'
 ```
 **Args:**
 * `variable`            (required): The variable you want to check if it is empty.
@@ -107,7 +107,7 @@ This macro references a set of specified boolean variable and returns `true` if 
 
 **Usage:**
 ```sql
-{{ fivetran_utils.enabled_vars_one_true(vars=["using_department_table", "using_customer_table"]) }}
+{{ fivetran_utils__no_quotes.enabled_vars_one_true(vars=["using_department_table", "using_customer_table"]) }}
 ```
 **Args:**
 * `vars` (required): Variable(s) you are referencing to return the declared variable value.
@@ -119,7 +119,7 @@ This macro references a set of specified boolean variable and returns `false` if
 
 **Usage:**
 ```sql
-{{ fivetran_utils.enabled_vars(vars=["using_department_table", "using_customer_table"]) }}
+{{ fivetran_utils__no_quotes.enabled_vars(vars=["using_department_table", "using_customer_table"]) }}
 ```
 **Args:**
 * `vars` (required): Variable you are referencing to return the declared variable value.
@@ -131,7 +131,7 @@ This macro is used to generate the correct sql for package staging models for us
 
 **Usage:**
 ```sql
-{{ fivetran_utils.fill_pass_through_columns(pass_through_variable='hubspot__contact_pass_through_columns') }}
+{{ fivetran_utils__no_quotes.fill_pass_through_columns(pass_through_variable='hubspot__contact_pass_through_columns') }}
 ```
 **Args:**
 * `pass_through_variable` (required): Name of the variable which contains the respective pass through fields for the staging model.
@@ -146,7 +146,7 @@ and compares it with columns in the source (`source_columns`).
 select
 
     {{
-        fivetran_utils.fill_staging_columns(
+        fivetran_utils__no_quotes.fill_staging_columns(
             source_columns=adapter.get_columns_in_relation(ref('stg_twitter_ads__account_history_tmp')),
             staging_columns=get_account_history_columns()
         )
@@ -164,7 +164,7 @@ This macro returns the value_expression for the first row in the current window 
 
 **Usage:**
 ```sql
-{{ fivetran_utils.first_value(first_value_field="created_at", partition_field="id", order_by_field="created_at", order="asc") }}
+{{ fivetran_utils__no_quotes.first_value(first_value_field="created_at", partition_field="id", order_by_field="created_at", order="asc") }}
 ```
 **Args:**
 * `first_value_field` (required): The value expression which you want to determine the first value for.
@@ -180,7 +180,7 @@ The macro should be run using dbt's `run-operation` functionality, as used below
 
 **Usage:**
 ```
-dbt run-operation fivetran_utils.generate_columns_macro --args '{"table_name": "promoted_tweet_report", "schema_name": "twitter_ads", "database_name": "dbt-package-testing"}'
+dbt run-operation fivetran_utils__no_quotes.generate_columns_macro --args '{"table_name": "promoted_tweet_report", "schema_name": "twitter_ads", "database_name": "dbt-package-testing"}'
 ```
 **Output:**
 ```sql
@@ -210,7 +210,7 @@ This macro returns all column names and datatypes for a specified table within a
 
 **Usage:**
 ```sql
-{{ fivetran_utils.get_columns_for_macro(table_name="team", schema_name="my_teams", database_name="my_database") }}
+{{ fivetran_utils__no_quotes.get_columns_for_macro(table_name="team", schema_name="my_teams", database_name="my_database") }}
 ```
 **Args:**
 * `table_name`    (required): Name of the table you are wanting to return column names and datatypes.
@@ -224,7 +224,7 @@ The data is returned by the path you provide as the argument. The json_extract m
 
 **Usage:**
 ```sql
-{{ fivetran_utils.json_extract(string="value", string_path="in_business_hours") }}
+{{ fivetran_utils__no_quotes.json_extract(string="value", string_path="in_business_hours") }}
 ```
 **Args:**
 * `string` (required): Name of the field which contains the json object.
@@ -237,7 +237,7 @@ The data is returned by the path you provide as the list within the `string_path
 
 **Usage:**
 ```sql
-{{ fivetran_utils.json_parse(string="receipt", string_path=["charges","data",0,"balance_transaction","exchange_rate"]) }}
+{{ fivetran_utils__no_quotes.json_parse(string="receipt", string_path=["charges","data",0,"balance_transaction","exchange_rate"]) }}
 ```
 **Args:**
 * `string` (required): Name of the field which contains the json object.
@@ -249,7 +249,7 @@ This macro builds off of the `json_extract` macro in order to extract a list of 
 
 **Usage:**
 ```sql
-{{ fivetran_utils.pivot_json_extract(string="json_value", list_of_properties=["field 1", "field 2"]) }}
+{{ fivetran_utils__no_quotes.pivot_json_extract(string="json_value", list_of_properties=["field 1", "field 2"]) }}
 ```
 **Args:**
 * `string` (required): Name of the field which contains the json object.
@@ -261,7 +261,7 @@ This macro allows for cross database use of obtaining the max boolean value of a
 
 **Usage:**
 ```sql
-{{ fivetran_utils.max_bool(boolean_field="is_breach") }}
+{{ fivetran_utils__no_quotes.max_bool(boolean_field="is_breach") }}
 ```
 **Args:**
 * `boolean_field` (required): Name of the field you are obtaining the max boolean record from.
@@ -272,7 +272,7 @@ This macro is used to return the designated percentile of a field with cross db 
 
 **Usage:**
 ```sql
-{{ fivetran_utils.percentile(percentile_field='time_to_close', partition_field='id', percent='0.5') }}
+{{ fivetran_utils__no_quotes.percentile(percentile_field='time_to_close', partition_field='id', percent='0.5') }}
 ```
 **Args:**
 * `percentile_field` (required): Name of the field of which you are determining the desired percentile.
@@ -285,7 +285,7 @@ This macro removes desired prefixes from specified columns. Additionally, a for 
 
 **Usage:**
 ```sql
-{{ fivetran_utils.remove_prefix_from_columns(columns="names", prefix='', exclude=[]) }}
+{{ fivetran_utils__no_quotes.remove_prefix_from_columns(columns="names", prefix='', exclude=[]) }}
 ```
 **Args:**
 * `columns` (required): The desired columns you wish to remove prefixes.
@@ -301,7 +301,7 @@ It simply chooses which version of the data to seed (the Snowflake copy should c
 ```yml
     # in integration_tests/dbt_project.yml
     vars:
-        table_name: "{{ fivetran_utils.snowflake_seed_data(seed_name='user_data') }}"
+        table_name: "{{ fivetran_utils__no_quotes.snowflake_seed_data(seed_name='user_data') }}"
 ```
 **Args:**
 * `seed_name` (required): Name of the seed that has separate snowflake seed data.
@@ -316,7 +316,7 @@ specific seed data files you need for integration testing.
 ```yml
     # in integration_tests/dbt_project.yml
     vars:
-        table_name: "{{ fivetran_utils.seed_data_helper(seed_name='user_data', warehouses=['snowflake', 'postgres']) }}"
+        table_name: "{{ fivetran_utils__no_quotes.seed_data_helper(seed_name='user_data', warehouses=['snowflake', 'postgres']) }}"
 ```
 **Args:**
 * `seed_name` (required): Name of the seed that has separate postgres seed data.
@@ -331,8 +331,8 @@ dbt run-operation staging_models_automation --args '{package: asana, source_sche
 ```
 **CLI Output:**
 ```bash
-source dbt_modules/fivetran_utils/columns_setup.sh '../dbt_asana_source' stg_asana dbt-package-testing asana_2 user && 
-source dbt_modules/fivetran_utils/columns_setup.sh '../dbt_asana_source' stg_asana dbt-package-testing asana_2 tag
+source dbt_modules/fivetran_utils__no_quotes/columns_setup.sh '../dbt_asana_source' stg_asana dbt-package-testing asana_2 user && 
+source dbt_modules/fivetran_utils__no_quotes/columns_setup.sh '../dbt_asana_source' stg_asana dbt-package-testing asana_2 tag
 ```
 **Args:**
 * `package`         (required): Name of the package for which you are creating staging models/macros.
@@ -347,7 +347,7 @@ BigQuery, Snowflake, Redshift.
 
 **Usage:**
 ```sql
-{{ fivetran_utils.string_agg(field_to_agg="issues_opened", delimiter='|') }}
+{{ fivetran_utils__no_quotes.string_agg(field_to_agg="issues_opened", delimiter='|') }}
 ```
 **Args:**
 * `field_to_agg` (required): Field within the table you are wishing to aggregate.
@@ -358,7 +358,7 @@ This macro allows for cross database addition of a timestamp field and a specifi
 
 **Usage:**
 ```sql
-{{ fivetran_utils.timestamp_add(datepart="day", interval="1", from_timestamp="last_ticket_timestamp") }}
+{{ fivetran_utils__no_quotes.timestamp_add(datepart="day", interval="1", from_timestamp="last_ticket_timestamp") }}
 ```
 **Args:**
 * `datepart`       (required): The datepart you are adding to the timestamp field.
@@ -371,7 +371,7 @@ This macro allows for cross database timestamp difference calculation for BigQue
 
 **Usage:**
 ```sql
-{{ fivetran_utils.timestamp_diff(first_date="first_ticket_timestamp", second_date="last_ticket_timestamp", datepart="day") }}
+{{ fivetran_utils__no_quotes.timestamp_diff(first_date="first_ticket_timestamp", second_date="last_ticket_timestamp", datepart="day") }}
 ```
 **Args:**
 * `first_date`       (required): The first timestamp field for the difference calculation.
@@ -414,7 +414,7 @@ When using this functionality, every `_tmp` table should use this macro as descr
 **Usage:**
 ```sql
 {{
-    fivetran_utils.union_data(
+    fivetran_utils__no_quotes.union_data(
         table_identifier='customer', 
         database_variable='shopify_database', 
         schema_variable='shopify_schema', 
@@ -439,7 +439,7 @@ It should be added to all non-tmp staging models when using the `union_data` mac
 
 **Usage:**
 ```sql
-{{ fivetran_utils.source_relation() }}
+{{ fivetran_utils__no_quotes.source_relation() }}
 ```
 
 ## Bash Scripts
@@ -454,12 +454,12 @@ This bash file can be used to setup or update packages to use the `fill_staging_
 
 The usage is as follows, assuming you are executing via a `zsh` terminal and in a dbt project directory that has already imported this repo as a dependency:
 ```bash
-source dbt_modules/fivetran_utils/columns_setup.sh "path/to/directory" file_prefix database_name schema_name table_name
+source dbt_modules/fivetran_utils__no_quotes/columns_setup.sh "path/to/directory" file_prefix database_name schema_name table_name
 ```
 
 As an example, assuming we are in a dbt project in an adjacent folder to `dbt_marketo_source`:
 ```bash
-source dbt_modules/fivetran_utils/columns_setup.sh "../dbt_marketo_source" stg_marketo "digital-arbor-400" marketo_v3 deleted_program_membership
+source dbt_modules/fivetran_utils__no_quotes/columns_setup.sh "../dbt_marketo_source" stg_marketo "digital-arbor-400" marketo_v3 deleted_program_membership
 ```
 
 In that example, it will:

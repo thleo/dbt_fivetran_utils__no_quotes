@@ -10,7 +10,7 @@ renamed as (
     select
     
         {{
-            fivetran_utils.fill_staging_columns(
+            fivetran_utils__no_quotes.fill_staging_columns(
                 source_columns=adapter.get_columns_in_relation(ref('fill_staging_columns_input')),
                 staging_columns=get_fill_staging_columns_columns()
             )

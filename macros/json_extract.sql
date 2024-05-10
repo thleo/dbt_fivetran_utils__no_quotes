@@ -1,6 +1,6 @@
 {% macro json_extract(string, string_path) -%}
 
-{{ adapter.dispatch('json_extract', packages = fivetran_utils._get_utils_namespaces()) (string, string_path) }}
+{{ adapter.dispatch('json_extract', packages = fivetran_utils__no_quotes._get_utils_namespaces()) (string, string_path) }}
 
 {%- endmacro %}
 
