@@ -1,6 +1,6 @@
 {% macro first_value(first_value_field, partition_field, order_by_field, order="asc") -%}
 
-{{ adapter.dispatch('first_value', packages = fivetran_utils__no_quotes._get_utils_namespaces()) (first_value_field, partition_field, order_by_field, order) }}
+{{ adapter.dispatch('first_value', macro_namespace = fivetran_utils__no_quotes._get_utils_namespaces()) (first_value_field, partition_field, order_by_field, order) }}
 
 {%- endmacro %}
 

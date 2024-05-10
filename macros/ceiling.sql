@@ -1,6 +1,6 @@
 {% macro ceiling(num) -%}
 
-{{ adapter.dispatch('ceiling', packages = fivetran_utils__no_quotes._get_utils_namespaces()) (num) }}
+{{ adapter.dispatch('ceiling', macro_namespace = fivetran_utils__no_quotes._get_utils_namespaces()) (num) }}
 
 {%- endmacro %}
 
